@@ -1,17 +1,27 @@
-/**
- * Write a description of class Deck here.
- * 
- * @author (your name) 
- * @version (a version number or a date)
- */
-
 import greenfoot.*;
+import java.util.ArrayList;
 
+/**
+ * A deck holds cards and can be shuffled
+ * 
+ * @author Nathaniel de Marcellus 
+ * @version 1/19/2024
+ */
 public class Deck 
 {
-    /****************************************************
-    ***   Leave as comment until ready to implement   ***
-    *****************************************************
+    private Card[] unShuffledDeck;
+    private ArrayList<Card> shuffledDeck;
+    
+    // deck constructor
+    Deck(int numOfCardsInDeck)
+    {
+        numOfCardsInDeck = limitNumCardsInDeck(numOfCardsInDeck);  // limits size to 27 or 81        
+        unShuffledDeck = new Card[numOfCardsInDeck + 1];           // playing cards plus blank card
+        shuffledDeck = new ArrayList<>();                          // Instantiates ArrayList with no elements
+        populateUnshuffledDeckWithCards(numOfCardsInDeck);         // Initializes Unshuffled Deck
+        createShuffledDeck();                                      // Initializes shuffled deck excluding blank card
+    }
+    
     // adds all the cards to the unshuffled deck.   
     private void populateUnshuffledDeckWithCards(int numOfCardsInDeck)        
     {
@@ -269,5 +279,49 @@ public class Deck
           }
     }
     
-    **************  END OF COMMENT BLOCK  ***************/
+    // shuffles the deck
+    private void createShuffledDeck()
+    {
+        for (int i = 1; i < unShuffledDeck.length; i++)
+        {
+            shuffledDeck.add((int) (Math.random() * shuffledDeck.size()), unShuffledDeck[i]);
+        }
+    }
+    
+    // return number of unused cards in deck
+    protected int getNumCardsInDeck()
+    {
+        return shuffledDeck.size();
+    }
+    
+    // returns and removes top card of shuffled deck
+    protected Card getTopCard()
+    {
+        return shuffledDeck.remove(0);
+    }
+    
+    // returns a card at index of the shuffled deck
+    protected Card getShuffledCard(int index)
+    {
+        return shuffledDeck.get(index);
+    }
+    
+    // returns the shuffled deck
+    protected ArrayList getShuffledDeck()
+    {
+        return shuffledDeck;
+    }
+    
+    // forces card count input to be either 27 or 81
+    protected int limitNumCardsInDeck(int cardCount)
+    {
+        if(cardCount <= 27)
+        {
+            return 27;
+        }
+        else
+        {
+            return 81;
+        }
+    }
 }
