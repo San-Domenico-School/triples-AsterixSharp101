@@ -9,13 +9,15 @@ import java.util.ArrayList;
  */
 public class Dealer extends Actor
 {
-    
     private Deck deck;
     private ArrayList<Card> cardsOnBoard;
     private ArrayList<Integer> selectedCardsIndex;
     private Card[] cardsSelected;
     private int numCardsInDeck, triplesRemaining;
     
+    /*
+     * Constructor of the Dealer class
+     */
     public Dealer(int numCardsInDeck)
     {
         this.numCardsInDeck = numCardsInDeck;
@@ -24,12 +26,18 @@ public class Dealer extends Actor
         cardsSelected = new Card[3];
     }
     
+    /*
+     * finish initializing the dealer object once added to the world
+     */
     public void addedToWorld(World world)
     {
         dealBoard();
         setUI();
     }
     
+    /*
+     * add all of the cards to the board
+     */
     public void dealBoard()
     {
         Greenfoot.playSound("shuffle.wav");
@@ -42,6 +50,9 @@ public class Dealer extends Actor
         }
     }
     
+    /*
+     * update the game ui
+     */
     public void setUI()
     {
         Integer cardsRemaining = new Integer(deck.getNumCardsInDeck());
@@ -50,23 +61,77 @@ public class Dealer extends Actor
         getWorld().showText(score.toString(), 300, 506);
     }
     
+    /*
+     * end the game and stop greenfoot
+     */
     public void endGame()
     {
-        
+        getWorld().showText("Game Over", 200, 200);
+        Greenfoot.stop();
     }
     
+    /*
+     * determine if a set is a triple
+     */
     public void checkIfTriple()
     {
+        Card card1 = cardsSelected[0];
+        Card card2 = cardsSelected[1];
+        Card card3 = cardsSelected[2];
         
+        boolean color = (card1.getColor().ordinal() + card2.getColor().ordinal() + card3.getColor().ordinal()) % 3 == 0;
+        boolean shape = (card1.getShape().ordinal() + card2.getShape().ordinal() + card3.getShape().ordinal()) % 3 == 0;
+        boolean shade = (card1.getShading() + card2.getShading() + card3.getShading()) % 3 == 0;
+        boolean count = (card1.getNumberOfShapes() + card2.getNumberOfShapes() + card3.getNumberOfShapes()) % 3 == 0;
+        
+        if(color && shape && count && shade)
+        {
+            actionIfTriple();
+        }
+        else
+        {
+            Animations.wobble(cardsSelected);
+        }
     }
     
+    /*
+     * update the board and score if a triple is found by checkIfTriple()
+     */
     public void actionIfTriple()
     {
+        Animations.slideAndTurn(cardsSelected);
         
+        for(int i = 0; i < 3; i++)
+        {
+            int x = cardsOnBoard.get(selectedCardsIndex.get(i)).getX();
+            int y = cardsOnBoard.get(selectedCardsIndex.get(i)).getY();
+            Card oldCard = cardsOnBoard.get(selectedCardsIndex.get(i));
+            Card newCard = deck.getTopCard();
+            if (newCard.getColor() != Card.Color.NO_COLOR)
+            {
+                cardsOnBoard.set(selectedCardsIndex.get(i), newCard);
+                getWorld().addObject(cardsOnBoard.get(selectedCardsIndex.get(i)), x, y);
+            }
+            getWorld().removeObject(oldCard);
+        }
+        
+        Scorekeeper.updateScore();
+        triplesRemaining--;
+        setUI();
+        
+        if (triplesRemaining == 0)
+        {
+            endGame();
+        }
     }
     
-    public void setCardsSelected(ArrayList<Card> cards, ArrayList<Integer> ints, Card[] arrayOfCards)
+    /*
+     * used by the Player object to update the variables in Dealer to match the player
+     */
+    public void setCardsSelected(ArrayList<Card> cards, ArrayList<Integer> cardIndices, Card[] arrayOfCards)
     {
-        
+        cardsOnBoard = cards;
+        selectedCardsIndex = cardIndices;
+        cardsSelected = arrayOfCards;
     }
 }

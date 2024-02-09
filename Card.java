@@ -9,25 +9,33 @@ import greenfoot.*;
 
 public class Card extends Actor
 {
-    
-   public enum Shape
-   {
+    /*
+     * enumerator for card shape
+     */
+    public enum Shape
+    {
        TRIANGLE, SQUARE, CIRCLE, NO_SHAPE
-   }
-   
-   public enum Color
-   {
+    }
+    
+    /*
+     * enumerator for card color
+     */
+    public enum Color
+    {
        RED, GREEN, BLUE, NO_COLOR
-   }
-   
-   private Shape shape;
-   private Color color;
-   private boolean isSelected;
-   private GreenfootImage cardImage, selectedCardImage;
-   private int numberOfShapes, shading;
-
-   public Card(Shape shape, Color color, int numberOfShapes, int shading, GreenfootImage cardImage, GreenfootImage selectedCardImage)
-   {
+    }
+    
+    private Shape shape;
+    private Color color;
+    private boolean isSelected;
+    private GreenfootImage cardImage, selectedCardImage;
+    private int numberOfShapes, shading;
+    
+    /*
+     * Constructor for card class
+     */
+    public Card(Shape shape, Color color, int numberOfShapes, int shading, GreenfootImage cardImage, GreenfootImage selectedCardImage)
+    {
        this.shape = shape;
        this.color = color;
        this.numberOfShapes = numberOfShapes;
@@ -35,46 +43,69 @@ public class Card extends Actor
        this.cardImage = cardImage;
        this.selectedCardImage = selectedCardImage;
        setImage(cardImage);
-   }
-   
-   public Shape getShape()
-   {
+    }
+    
+    /*
+     * return shape enum of a card object
+     */
+    public Shape getShape()
+    {
        return shape;
-   }
-   
-   public Color getColor()
-   {
+    }
+    
+    /*
+     * return color enum of a card object
+     */
+    public Color getColor()
+    {
        return color;
-   }
-   
-   public boolean getIsSelected()
-   {
+    }
+    
+    /*
+     * return isSelected flag of a card object
+     */
+    public boolean getIsSelected()
+    {
        return isSelected;
-   }
-   
-   public GreenfootImage getCardImage()
-   {
+    }
+    
+    /*
+     * return image of card object when not selected
+     */
+    public GreenfootImage getCardImage()
+    {
        return cardImage;
-   }
-   
-   public GreenfootImage getSelectedCardImage()
-   {
+    }
+    
+    /*
+     * return image of card object when selected
+     */
+    public GreenfootImage getSelectedCardImage()
+    {
        return selectedCardImage;
-   }
-   
-   public int getNumberOfShapes()
-   {
+    }
+    
+    /*
+     * return shape count of a card object
+     */
+    public int getNumberOfShapes()
+    {
        return numberOfShapes;
-   }
-   
-   public int getShading()
-   {
+    }
+    
+    /*
+     * return shading of a card object as an integer from 0 - 2
+     */
+    public int getShading()
+    {
        return shading;
-   }
-   
-   public void setIsSelected(boolean isSelected)
-   {
+    }
+    
+    /*
+     * change the isSelected flag of a card object
+     */
+    public void setIsSelected(boolean isSelected)
+    {
        this.isSelected = isSelected;
-   }
+    }
 }
-

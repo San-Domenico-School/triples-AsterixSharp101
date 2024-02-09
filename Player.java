@@ -14,6 +14,9 @@ public class Player extends Actor
     ArrayList<Card> cardsOnBoard;
     ArrayList<Integer> selectedCardsIndex;
     
+    /*
+     * Constructor for the player class
+     */
     public Player(Dealer dealer)
     {
         this.dealer = dealer;
@@ -22,7 +25,9 @@ public class Player extends Actor
         selectedCardsIndex = new ArrayList<Integer>();
     }
     
-    // update clicked cards, then send 3 selected cards to dealer if applicable
+    /*
+     * update clicked cards, then send 3 selected cards to dealer if applicable
+     */
     public void act()
     {
         selectCards();
@@ -35,13 +40,17 @@ public class Player extends Actor
         }
     }
     
-    // initialize cardsOnBoard from world
+    /*
+     * initialize cardsOnBoard from world
+     */
     public void addedToWorld(World world)
     {
         cardsOnBoard = (ArrayList) getWorld().getObjects(Card.class);
     }
     
-    // toggle clicked cards between selected and selected
+    /*
+     * toggle clicked cards between selected and selected
+     */
     private void selectCards()
     {
         for(int i = 0; i < cardsOnBoard.size(); i++)
@@ -67,7 +76,9 @@ public class Player extends Actor
         }
     }
     
-    // set all selected cards to be unselected, then remove them from selectedCardsIndex
+    /*
+     * set all selected cards to be unselected, then remove them from selectedCardsIndex
+     */
     private void resetCardsSelected()
     {
         for(int i = 0; i < cardsOnBoard.size(); i++)
@@ -78,7 +89,9 @@ public class Player extends Actor
         selectedCardsIndex.clear();
     }
     
-    // if total cards selected is 3, return true and set cardsSelected to values of board at selectedCardsIndex
+    /*
+     * if total cards selected is 3, return true and set cardsSelected to values of board at selectedCardsIndex
+     */
     private boolean setCardsSelected()
     {
         if(selectedCardsIndex.size() == 3)
